@@ -9,12 +9,17 @@ type Card struct {
   Value string
 }
 
+// NewCard creates a new instance of the card struct.
+func NewCard(suit, value string) Card {
+  return Card{Suit: suit, Value: value}
+}
+
 // NewDeck creates a new deck of cards from a slice of suits and a slice of values.
 func NewDeck(suits, values []string) []Card {
   var deck []Card
   for _, suit := range suits {
     for _, value := range values {
-        card := Card{Suit: suit, Value: value}
+        card := NewCard(suit, value)
         deck = append(deck, card)
     }
   }
@@ -43,18 +48,22 @@ func NewFifthDimensionDeck() []Card {
 // Shuffle randomises the order of the cards in-place.
 // It uses "math/rand" internally, and thus needs to be seeded before use.
 // cards.Seed() and cards.SeedInt(int64) can be used for this
-func Shuffle(deck []Card) []Card {
+func Shuffle(deck []Card) {
   for i := range deck {
     j := rand.Intn(i + 1)
-    deck[i], deck[j] = deck[j], deck[i]
+    if i != j {
+      deck[i], deck[j] = deck[j], deck[i]
+    }
   }
-
-  return deck
 }
 
-// Randomize is like Shuffle, except it's destructive
-func Randomize(deck *[]Card) {
-  *deck = Shuffle(*deck)
+// Shuffled is like Shuffle, except it's not destructive
+func Shuffled(deck []Card) []Card {
+  cp := make([]Card, len(deck))
+  copy(cp, deck)
+  Shuffle(cp)
+
+  return cp
 }
 
 // SeedInt seeds the card randomiser using an int64 value as its seed.
