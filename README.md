@@ -33,13 +33,6 @@ func NewStandardDeck() []Card
 NewStandardDeck creates a new standard western deck of cards with French suits
 (Spades, Clubs, Hearts, and Diamonds).
 
-#### func  Randomize
-
-```go
-func Randomize(deck *[]Card)
-```
-Randomize is like Shuffle, except it's destructive
-
 #### func  Seed
 
 ```go
@@ -57,11 +50,18 @@ SeedInt seeds the card randomiser using an int64 value as its seed.
 #### func  Shuffle
 
 ```go
-func Shuffle(deck []Card) []Card
+func Shuffle(deck []Card)
 ```
 Shuffle randomises the order of the cards in-place. It uses "math/rand"
 internally, and thus needs to be seeded before use. cards.Seed() and
 cards.SeedInt(int64) can be used for this
+
+#### func  Shuffled
+
+```go
+func Shuffled(deck []Card) []Card
+```
+Shuffled is like Shuffle, except it's not destructive
 
 #### type Card
 
@@ -73,3 +73,10 @@ type Card struct {
 ```
 
 Card is a struct holding the suit and value associated with a card.
+
+#### func  NewCard
+
+```go
+func NewCard(suit, value string) Card
+```
+NewCard creates a new instance of the card struct.
